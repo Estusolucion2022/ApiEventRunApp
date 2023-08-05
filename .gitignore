@@ -1,0 +1,4 @@
+#dotnet core
+.vs/
+bin/
+obj/
