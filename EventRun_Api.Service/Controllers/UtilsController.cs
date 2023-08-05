@@ -17,7 +17,7 @@ namespace EventRun_Api.Service.Controllers
     public class UtilsController
     {
         private readonly IConfiguration _config;
-        private readonly InscriptionDataCore _inscriptionDataCore = new();
+        //private readonly InscriptionDataCore _inscriptionDataCore = new();
 
         public UtilsController(IConfiguration config) { _config = config; }
 

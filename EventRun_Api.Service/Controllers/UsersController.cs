@@ -11,7 +11,9 @@ namespace EventRun_Api.Service.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserCore _userCore = new();
+        private readonly UserCore _userCore;
+
+        public UsersController(IConfiguration configuration) { _userCore = new(configuration); }
 
         [HttpPost]
         [Route("Search")]

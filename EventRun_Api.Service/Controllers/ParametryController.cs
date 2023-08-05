@@ -11,13 +11,25 @@ namespace EventRun_Api.Service.Controllers
     [ApiController]
     public class ParametryController : ControllerBase
     {
-        private readonly DocumentTypeCore _documentTypeCore = new();
-        private readonly CitiesCore _citiesCore = new();
-        private readonly CountriesCore _countriesCore = new();
-        private readonly GendersCore _gendersCore = new();
-        private readonly PaymentMethodsCore _paymentMethodsCore = new();
-        private readonly RacesCore _racesCore = new();
-        private readonly CategoriesCore _categoriesCore = new();
+
+        private readonly DocumentTypeCore _documentTypeCore;
+        private readonly CitiesCore _citiesCore;
+        private readonly CountriesCore _countriesCore;
+        private readonly GendersCore _gendersCore;
+        private readonly PaymentMethodsCore _paymentMethodsCore;
+        private readonly RacesCore _racesCore;
+        private readonly CategoriesCore _categoriesCore;
+
+        public ParametryController(IConfiguration configuration)
+        {
+            _documentTypeCore = new(configuration);
+            _citiesCore = new(configuration);
+            _countriesCore = new(configuration);
+            _gendersCore = new(configuration);
+            _paymentMethodsCore = new(configuration);
+            _racesCore = new(configuration);
+            _categoriesCore = new(configuration);
+        }
 
         [HttpGet]
         [Route("GetParametry")]
@@ -76,7 +88,8 @@ namespace EventRun_Api.Service.Controllers
                         break;
                 }
 
-                return StatusCode(StatusCodes.Status200OK, new Response() {
+                return StatusCode(StatusCodes.Status200OK, new Response()
+                {
                     Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
                     Data = lstOpciones
                 });

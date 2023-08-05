@@ -1,6 +1,12 @@
+using Aspose.Cells.Charts;
+using EventRun_Api.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var urlCors = builder.Configuration.GetSection("AppSettings:Cors").Value!;
 
 // Add services to the container.
 
@@ -18,8 +24,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularOrigins", builder =>
     {
-        builder.WithOrigins("http://localhost:4200", "http://190.146.36.29", "https://clubol.org").AllowAnyHeader().AllowAnyMethod();
+        builder.WithOrigins(urlCors).AllowAnyHeader().AllowAnyMethod();
     });
+});
+
+builder.Services.AddDbContext<EventRunContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectiion"));
 });
 
 var app = builder.Build();

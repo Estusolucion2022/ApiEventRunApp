@@ -2,6 +2,7 @@
 using EventRun_Api.Models.Enums;
 using EventRun_Api.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +14,13 @@ namespace EventRun_Api.Core
 {
     public class InscriptionDataCore
     {
-        private readonly EventRunContext _db = new();
+        private IConfiguration _configuration { get; }
+        private readonly EventRunContext _db;
+        public InscriptionDataCore(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _db = new(_configuration["AppSettings:DefaultConnection"]!);
+        }
 
         public List<InscriptionDataResponse> GetInscriptionData(int idRunner)
         {

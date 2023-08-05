@@ -1,4 +1,5 @@
 ﻿using EventRun_Api.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,13 @@ namespace EventRun_Api.Core
 {
     public class RacesCore
     {
-        private readonly EventRunContext _db = new();
+        private IConfiguration _configuration { get; }
+        private readonly EventRunContext _db;
+        public RacesCore(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _db = new(_configuration["AppSettings:DefaultConnection"]!);
+        }
 
         public List<Race> GetRaces(bool checkActive = false)
         {

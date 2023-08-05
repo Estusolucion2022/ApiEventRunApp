@@ -1,5 +1,6 @@
 ﻿using EventRun_Api.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Runtime.Serialization;
 
@@ -7,8 +8,10 @@ namespace EventRun_Api.Models;
 
 public partial class EventRunContext : DbContext
 {
-    public EventRunContext()
+    private readonly string DefaultConnection = string.Empty;
+    public EventRunContext(string url)
     {
+        DefaultConnection = url;
     }
 
     public EventRunContext(DbContextOptions<EventRunContext> options)
@@ -43,11 +46,12 @@ public partial class EventRunContext : DbContext
     public virtual DbSet<ReportInscriptionData> ReportInscriptionData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //=> optionsBuilder.UseSqlServer("Server=162.248.52.22,60539; DataBase=EventRunningQA;user id=Sasisco;pwd=Colombia2022*;TrustServerCertificate=True");
-    => optionsBuilder.UseSqlServer("Server=(local); DataBase=EventRun;user id=sa;pwd=B4099767;TrustServerCertificate=True");
+    {
+        if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlServer(DefaultConnection);
+    }
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
         {

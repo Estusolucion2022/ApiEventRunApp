@@ -9,12 +9,14 @@ namespace EventRun_Api.Service.Controllers
     [ApiController]
     public class InscriptionDataController : ControllerBase
     {
-        private readonly InscriptionDataCore _inscriptionDataCore = new();
-        private readonly RunnerCore _runnerCore = new();
+        private readonly InscriptionDataCore _inscriptionDataCore;
+        private readonly RunnerCore _runnerCore;
         private readonly UtilsController _utils;
 
         public InscriptionDataController(IConfiguration config) { 
             _utils = new UtilsController(config);
+            _inscriptionDataCore = new(config);
+            _runnerCore = new(config);
         }
 
         [HttpPost]

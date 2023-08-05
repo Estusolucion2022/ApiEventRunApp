@@ -1,12 +1,19 @@
 ﻿using EventRun_Api.Models;
 using EventRun_Api.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EventRun_Api.Core
 {
     public class RunnerCore
     {
-        private readonly EventRunContext _db = new();
+        private IConfiguration _configuration { get; }
+        private readonly EventRunContext _db;
+        public RunnerCore(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _db = new(_configuration["AppSettings:DefaultConnection"]!);
+        }
 
         public List<RunnerResponse> GetRunners() {
             try

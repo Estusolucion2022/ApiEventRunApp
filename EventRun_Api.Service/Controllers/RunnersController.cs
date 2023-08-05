@@ -3,6 +3,7 @@ using EventRun_Api.Core;
 using EventRun_Api.Models;
 using EventRun_Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Xml.Linq;
 using Response = EventRun_Api.Models.Response;
 
@@ -12,7 +13,12 @@ namespace EventRun_Api.Service.Controllers
     [ApiController]
     public class RunnersController : ControllerBase
     {
-        private readonly RunnerCore _runnerCore = new();
+        private readonly RunnerCore _runnerCore;
+
+        public RunnersController(IConfiguration configuration)
+        {
+            _runnerCore = new(configuration);
+        }
 
         [HttpGet]
         [Route("Search")]

@@ -1,6 +1,7 @@
 ﻿using EventRun_Api.Models;
 using EventRun_Api.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,13 @@ namespace EventRun_Api.Core
 {
     public class UserCore
     {
-        private readonly EventRunContext _db = new();
+        private IConfiguration _configuration { get; }
+        private readonly EventRunContext _db;
+        public UserCore(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _db = new(_configuration["AppSettings:DefaultConnection"]!);
+        }
 
         public int SaveUser(User user)
         {
