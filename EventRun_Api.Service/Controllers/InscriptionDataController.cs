@@ -1,6 +1,7 @@
 ﻿using EventRun_Api.Core;
 using EventRun_Api.Models;
 using EventRun_Api.Models.Enums;
+using EventRun_Api.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventRun_Api.Service.Controllers
@@ -11,10 +12,10 @@ namespace EventRun_Api.Service.Controllers
     {
         private readonly InscriptionDataCore _inscriptionDataCore;
         private readonly RunnerCore _runnerCore;
-        private readonly UtilsController _utils;
+        private readonly Email _email;
 
         public InscriptionDataController(IConfiguration config) { 
-            _utils = new UtilsController(config);
+            _email = new Email(config);
             _inscriptionDataCore = new(config);
             _runnerCore = new(config);
         }
@@ -58,7 +59,7 @@ namespace EventRun_Api.Service.Controllers
                     RunnerResponse runner = _runnerCore.GetRunnerById(inscriptionData.IdRunner);
                     if (inscriptionDataResponse != null && runner != null)
                     {
-                        _utils.SendEmail(inscriptionDataResponse, runner);
+                        _email.SendEmail(inscriptionDataResponse, runner);
                     }
                     else {
                         response.Code = (int)EnumCodeResponse.CodeResponse.ErrorEnviarCorreo;

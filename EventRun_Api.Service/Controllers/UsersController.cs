@@ -4,6 +4,8 @@ using EventRun_Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EventRun_Api.Models.Models;
+using System.Security.Permissions;
+using EventRun_Api.Utils;
 
 namespace EventRun_Api.Service.Controllers
 {
@@ -21,7 +23,7 @@ namespace EventRun_Api.Service.Controllers
         {
             try
             {
-                credentials.Password = SecurityController.GetSHA256(credentials.Password ?? string.Empty);
+                credentials.Password = Security.GetSHA256(credentials.Password ?? string.Empty);
                 Response response = new()
                 {
                     Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
@@ -47,7 +49,7 @@ namespace EventRun_Api.Service.Controllers
             try
             {
                 user.CreationDate = DateTime.Now;
-                user.Password = SecurityController.GetSHA256(user.Password);
+                user.Password = Security.GetSHA256(user.Password);
                 int idUser = _userCore.SaveUser(user);
 
                 user = _userCore.GetUserById(idUser);

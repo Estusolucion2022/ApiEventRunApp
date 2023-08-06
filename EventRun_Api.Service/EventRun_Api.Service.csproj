@@ -14,10 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EventRun_Api.Core\EventRun_Api.Core.csproj" />
     <ProjectReference Include="..\EventRun_Api.Models\EventRun_Api.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
+    <ProjectReference Include="..\EventRun_Api.Utils\EventRun_Api.Utils.csproj" />
   </ItemGroup>
 
 </Project>

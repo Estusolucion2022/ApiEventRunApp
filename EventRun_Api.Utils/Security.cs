@@ -1,12 +1,12 @@
-﻿using System.Runtime.Intrinsics.Arm;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace EventRun_Api.Service.Controllers
+namespace EventRun_Api.Utils
 {
-    public static class SecurityController
+    public class Security
     {
-        public static string GetSHA256(string strToEncrypt) {
+        public static string GetSHA256(string strToEncrypt)
+        {
             SHA256 sha256 = SHA256.Create();
             ASCIIEncoding encoding = new();
             byte[]? stream = null;
