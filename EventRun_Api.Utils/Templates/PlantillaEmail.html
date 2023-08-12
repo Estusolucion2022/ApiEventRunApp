@@ -1,152 +1,250 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <style>
-            .align-center{text-align: center;}
-            .table{color:#495057 !important;border:1px solid gray !important;}
-            tr{border:1px solid gray !important;}
-            td{border-right: 1px solid gray !important; text-align: left;}
-            .header, .content, .observations{ margin-bottom: 10px;}
-            .observations{font-size: 12px;}
-        </style>
+    <meta content="text/html; charset=ISO-8859-1"
+          http-equiv="content-type">
+    <title>test</title>
 </head>
 <body>
-    <div class="row header">
-        <label>Hola <b>@runner.firstName</b>, Bienvenido(a) a nuestra carrera EL GRAN RETO SAN ANDRES32K, gracias por participar.</label>
-    </div>
-    <div class="row content">
-        <div class="col-md-6 col-md-offset-3">
-            <table class="table">
-                <thead class="thead-light align-center">
-                    <tr>
-                        <th scope="col" colspan="2">Datos de Inscripcion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Fecha registro</td>
-                        <td>@inscription.registrationDate</td>
-                    </tr>
-                    <tr>
-                        <td>Documento</td>
-                        <td>@runner.documentType: @runner.documentNumber</td>
-                    </tr>
-                    <tr>
-                        <td>Nombre</td>
-                        <td>@runner.firstName @runner.lastName</td>
-                    </tr>
-                    <tr>
-                        <td>Genero</td>
-                        <td>@runner.gender</td>
-                    </tr>
-                    <tr>
-                        <td>Fecha Nacimiento</td>
-                        <td>@runner.birthDate</td>
-                    </tr>
-                    <tr>
-                        <td>Tipo de Sangre</td>
-                        <td>@runner.bloodType</td>
-                    </tr>
-                    <tr>
-                        <td>Correo Electronico</td>
-                        <td>@runner.email</td>
-                    </tr>
-                    <tr>
-                        <td>Celular o Teléfono</td>
-                        <td>@runner.phone</td>
-                    </tr>
-                    <tr>
-                        <td>Dirección</td>
-                        <td>@runner.address</td>
-                    </tr>
-                    <tr>
-                        <td>Ciudad</td>
-                        <td>@runner.city</td>
-                    </tr>
-                    <tr>
-                        <td>Pais</td>
-                        <td>@runner.countryNationality</td>
-                    </tr>
-                    <tr>
-                        <td>Aerolinea</td>
-                        <td>@inscription.airlineCityOrigin</td>
-                    </tr>
-                    <tr>
-                        <td>Fecha de ida - Fecha de regreso</td>
-                        <td>@inscription.departureDate - @inscription.returnDate</td>
-                    </tr>
-                    <tr>
-                        <td>Forma de pago</td>
-                        <td>@inscription.paymentMethod</td>
-                    </tr>
-                    <tr>
-                        <td>Numero de Comprobante</td>
-                        <td>@inscription.proofPayment</td>
-                    </tr>
-                    <tr>
-                        <td>Detalle del pago</td>
-                        <td>@inscription.detailsPayment</td>
-                    </tr>
-                    <tr>
-                        <td>Prueba inscrita</td>
-                        <td>@inscription.race - @inscription.category</td>
-                    </tr>
-                    <tr>
-                        <td>Talla camiseta</td>
-                        <td>@inscription.tshirtSize</td>
-                    </tr>
-                    <tr>
-                        <td>Autoriza publicación</td>
-                        <td>@inscription.authorizationListEnrolled</td>
-                    </tr>
-                    <tr>
-                        <td>Club</td>
-                        <td>@inscription.club</td>
-                    </tr>
-                    <tr>
-                        <td>Observaciones</td>
-                        <td>@inscription.observations</td>
-                    </tr>
-                    <tr>
-                        <td>Acepta exoneracion responsabilidades</td>
-                        <td>@inscription.acceptanceTyC</td>
-                    </tr>
-                    <tr>
-                        <td>Contacto de Emergencia</td>
-                        <td>@runner.emergencyContactName @runner.emergencyContactPhone</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row observations">
-        <p>
-            Si requiere realizar algún cambio, por favor envíe un correo electrónico a
-            clubolimpus@clubol.org, nosotros haremos la actualización.
-        </p>
-        <p>
-            <big>
-                <span style="font-weight: bold;">
-                    Recuerda
-                    que el inscribirte aceptas los acuerdos, instrucciones, advertencias y
-                    demas documentos publicados en la pagina web del evento
-                </span>
-            </big>
-        </p>
-        <p>
-            Anexo encontraras la <b>Declaración de Liberación de Responsabilidades - Terminos de Participación</b> para
-            que lo descargues, lo firmes y lo reenvies a <b>clubolimpus@clubol.ogr</b>.
-        </p>
-        <p>
-            Para tu lectura se anexa <b>Reglamento de carrera</b> y <b>las condiciones</b>
-        </p>
-        <p>
-            Este mensaje electrónico es generado de forma automática, por favor no conteste este correo.
-        </p>
-    </div>
-    <div class="row footer">
+    <div style="text-align: center;">
+        <table style="text-align: left; width: 100%;" border="1"
+               cellpadding="2" cellspacing="2">
+            <tbody>
+                <tr align="center">
+                    <td>
+                        <span style="">
+                            <img id="_x0000_i1025"
+                                 src="https://clubol.org/sanandres32k/plantilla_home_seccionamailing1.jpg"
+                                 style="border: 0px solid ; width: 624px; height: 41px;" alt="">
+                        </span>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>
+                        <table style="text-align: left; width: 624px; height: 79px;"
+                               border="1" cellpadding="2" cellspacing="2">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="row header">
+                                            <div style="text-align: left;">
+                                                <label>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    Hola <b>@runner.firstName</b>, Bienvenido(a) a nuestra
+                                                    carrera EL GRAN RETO SAN ANDRES32K, gracias por
+                                                    participar 28 Abril 2024.
+                                                </label><br>
+                                            </div>
+                                            <p style="margin: 0in 0in 6pt; line-height: 13.5pt; text-align: left;">
+                                                <b>
+                                                    <span style="font-size: 10pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);">
+                                                        Siguenos
+                                                        en Instagram&nbsp;clic
+                                                    </span>
+                                                </b><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);">
+                                                    <a href="https://www.instagram.com/sanandres32k/"
+                                                       target="_blank"><b>aqu&iacute;</b></a>
+                                                </span><a href="https://www.instagram.com/sanandres32k" target="_blank">
+                                                    &nbsp;https://www.instagram.com/<span style="color: rgb(51, 51, 255);">sanandres32k</span>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="https://www.instagram.com/sanandres32k"
+                           target="_blank"><span style="color: rgb(51, 51, 255);"></span></a>
+                        <div class="row content">
+                            <div class="col-md-6 col-md-offset-3">
+                                <table style="width: 622px; height: 668px;"
+                                       class="table">
+                                    <thead class="thead-light align-center">
+                                        <tr>
+                                            <th scope="col" colspan="2">
+                                                Datos de
+                                                Inscripcion:
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Fecha registro</td>
+                                            <td>@inscription.registrationDate</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Documento</td>
+                                            <td>@runner.documentType: @runner.documentNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nombre</td>
+                                            <td>@runner.firstName @runner.lastName</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Genero</td>
+                                            <td>@runner.gender</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha Nacimiento</td>
+                                            <td>@runner.birthDate</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tipo de Sangre</td>
+                                            <td>@runner.bloodType</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Correo Electronico</td>
+                                            <td>@runner.email</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Celular o Tel&eacute;fono</td>
+                                            <td>@runner.phone</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Direcci&oacute;n</td>
+                                            <td>@runner.address</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ciudad</td>
+                                            <td>@runner.city</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pais</td>
+                                            <td>@runner.countryNationality</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aerolinea</td>
+                                            <td>@inscription.airlineCityOrigin</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de ida - Fecha de regreso</td>
+                                            <td>
+                                                @inscription.departureDate -
+                                                @inscription.returnDate
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Forma de pago</td>
+                                            <td>@inscription.paymentMethod</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Numero de Comprobante</td>
+                                            <td>@inscription.proofPayment</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Detalle del pago</td>
+                                            <td>@inscription.detailsPayment</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prueba inscrita</td>
+                                            <td>@inscription.race - @inscription.category</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Talla camiseta</td>
+                                            <td>@inscription.tshirtSize</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Autoriza publicaci&oacute;n</td>
+                                            <td>@inscription.authorizationListEnrolled</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Club</td>
+                                            <td>@inscription.club</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Observaciones</td>
+                                            <td>@inscription.observations</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Acepta exoneracion responsabilidades</td>
+                                            <td>@inscription.acceptanceTyC</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contacto de Emergencia</td>
+                                            <td>
+                                                @runner.emergencyContactName
+                                                @runner.emergencyContactPhone
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row observations">
+                            <table style="text-align: left; width: 624px; height: 294px;"
+                                   border="1" cellpadding="2" cellspacing="2">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                Si requiere realizar alg&uacute;n cambio, por
+                                                favor env&iacute;e un correo electr&oacute;nico a
+                                                clubolimpus@clubol.org, nosotros haremos la actualizaci&oacute;n.
+                                            </p>
+                                            <p>
+                                                <big>
+                                                    <span style="font-weight: bold;">
+                                                        Recuerda
+                                                        que el inscribirte aceptas los acuerdos, instrucciones, advertencias y
+                                                        demas documentos publicados en la pagina web del evento
+                                                    </span>
+                                                </big>
+                                            </p>
+                                            <p style="margin: 0in 0in 6pt; text-align: center; line-height: 13.5pt;"
+                                               align="center">
+                                                <a href="https://www.instagram.com/sanandres32k" target="_blank">
+                                                    <b>
+                                                        Declaraci&oacute;n
+                                                        de Liberaci&oacute;n de Responsabilidades - Terminos de
+                                                        Participaci&oacute;n
+                                                    </b><br>
+                                                    &nbsp;
+                                                </a><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);"></span><span style="font-size: 8.5pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);"><o:p></o:p></span>
+                                            </p>
+                                            <p style="text-align: center; line-height: 13.5pt;"
+                                               align="center">
+                                                <span style="font-size: 10pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);">
+                                                    Recibiste
+                                                    este correo porque est&aacute;s suscrito a nuestra base de datos.
+                                                </span><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);">
+                                                    E-mail
+                                                    autom&aacute;tico, favor no conteste este correo.
+                                                </span>
+                                            </p>
+                                            <p style="text-align: center; line-height: 13.5pt;"
+                                               align="center">
+                                                <span style="font-size: 10pt; font-family: &quot;Verdana&quot;,sans-serif; color: rgb(0, 0, 95);">
+                                                    <a href="https://clubol.org/wp/contacto/" target="_blank">
+                                                        Cancelar
+                                                        Suscripci&oacute;n | Cont&aacute;ctanos
+                                                    </a>
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="text-align: center; line-height: 13.5pt;"
+                           align="center">https://clubol.org/sanandres32k </p>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>
+                        <span style="">
+                            <img id="_x0000_i1026"
+                                 src="https://siscov.net/zonacliente/Via/web/imagesNew/plantilla_final_seccionamailing2.jpg"
+                                 style="border: 0px solid ; width: 624px; height: 52px;"
+                                 alt="paquete">
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
     </div>
 </body>
 </html>
+
+
+

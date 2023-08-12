@@ -14,6 +14,7 @@ namespace EventRun_Api.Utils
         {
             #region config email service
             string emailFrom = _configuration["AppSettings:EmailFrom"]!;
+            string emailCco = _configuration["AppSettings:EmailCco"]!;
             string emailDisplayName = _configuration["AppSettings:EmailDisplayName"]!;
             string emailHost = _configuration["AppSettings:EmailHost"]!;
             int emailPort = Convert.ToInt32(_configuration["AppSettings:EmailPort"]!);
@@ -41,6 +42,7 @@ namespace EventRun_Api.Utils
                 Priority = MailPriority.Normal,
             };
             email.To.Add(emailUser);
+            email.Bcc.Add(emailCco);
             #endregion
             try
             {
