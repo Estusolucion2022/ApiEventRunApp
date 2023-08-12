@@ -10,12 +10,11 @@ namespace EventRun_Api.Utils
         private IConfiguration _configuration { get; }
         public Email(IConfiguration config) { _configuration = config; }
 
-        public void SendEmail(InscriptionDataResponse inscriptionData, RunnerResponse runner)
+        public void SendEmail(string content, string emailUser, string emailSubject)
         {
             #region config email service
             string emailFrom = _configuration["AppSettings:EmailFrom"]!;
-            string emailDisplayName = _configuration["AppSettings:EmailDisplayName"]!; 
-            string emailSubject = _configuration["AppSettings:EmailSubject"]!;
+            string emailDisplayName = _configuration["AppSettings:EmailDisplayName"]!;
             string emailHost = _configuration["AppSettings:EmailHost"]!;
             int emailPort = Convert.ToInt32(_configuration["AppSettings:EmailPort"]!);
             string emailPassword = _configuration["AppSettings:EmailPassword"]!;
@@ -37,11 +36,11 @@ namespace EventRun_Api.Utils
             {
                 From = new MailAddress(emailFrom, emailDisplayName, System.Text.Encoding.UTF8),
                 Subject = emailSubject,
-                Body = GetBodyEmail(inscriptionData, runner),
+                Body = content,
                 IsBodyHtml = true,
                 Priority = MailPriority.Normal,
             };
-            email.To.Add(runner.Email);
+            email.To.Add(emailUser);
             #endregion
             try
             {
@@ -53,10 +52,9 @@ namespace EventRun_Api.Utils
             }
         }
 
-
-        private string GetBodyEmail(InscriptionDataResponse inscriptionData, RunnerResponse runner)
+        public string GetBodyEmailCreate(InscriptionDataResponse inscriptionData, RunnerResponse runner)
         {
-            string body = GetStringOfFile(_configuration["AppSettings:TemplatePath"]!);
+            string body = GetStringOfFile(_configuration["AppSettings:TemplatePath"]! + "PlantillaEmail.html");
             return body.Replace("@inscription.registrationDate", inscriptionData.RegistrationDate.ToString("dd/MM/yyyy"))
                 .Replace("@runner.documentType", runner.DocumentType)
                 .Replace("@runner.documentNumber", runner.DocumentNumber.ToString())
@@ -85,6 +83,13 @@ namespace EventRun_Api.Utils
                 .Replace("@inscription.acceptanceTyC", inscriptionData.AcceptanceTyC == true ? "Si" : "No")
                 .Replace("@runner.emergencyContactName", runner.EmergencyContactName)
                 .Replace("@runner.emergencyContactPhone", runner.EmergencyContactPhone);
+        }
+
+        public string GetBodyEmailAccess(string userFirstName, string accessCode)
+        {
+            string body = GetStringOfFile(_configuration["AppSettings:TemplatePath"]! + "PlantillaEmailAccessCode.html");
+            return body.Replace("@runner.firstName", userFirstName)
+                .Replace("@AccessCode", accessCode);
         }
 
         public string GetStringOfFile(string templatePath)

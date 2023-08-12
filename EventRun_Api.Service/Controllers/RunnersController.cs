@@ -2,6 +2,8 @@
 using EventRun_Api.Core;
 using EventRun_Api.Models;
 using EventRun_Api.Models.Enums;
+using EventRun_Api.Models.Models;
+using EventRun_Api.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Xml.Linq;
@@ -14,28 +16,68 @@ namespace EventRun_Api.Service.Controllers
     public class RunnersController : ControllerBase
     {
         private readonly RunnerCore _runnerCore;
+        private readonly Email _email;
+        private IConfiguration _configuration { get; }
 
         public RunnersController(IConfiguration configuration)
         {
             _runnerCore = new(configuration);
+            _email = new Email(configuration);
+            _configuration = configuration;
         }
 
         [HttpGet]
         [Route("Search")]
-        public IActionResult Search(string? documentNumber = null, string? documentType = null)
+        public IActionResult Search(string documentNumber, string documentType)
+        {
+            try
+            {
+                RunnerResponse? runnerResponse = _runnerCore.GetRunner(documentNumber, documentType);
+                int accessCode = 0;
+
+                if (runnerResponse != null)
+                {
+                    accessCode = new Random().Next(10000, 99999);
+                    _email.SendEmail(
+                        _email.GetBodyEmailAccess(runnerResponse.FirstName, accessCode.ToString()),
+                        runnerResponse.Email,
+                        _configuration["AppSettings:EmailSubjectAccessCode"]!
+                        );
+                }
+
+                Response response = new()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
+                    Data = runnerResponse,
+                    Message = accessCode == 0 ? "" : accessCode.ToString()
+                };
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
+                    Message = "Error al consultar competidor",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("SearchAll")]
+        public IActionResult SearchAll()
         {
             try
             {
                 Response response = new()
                 {
                     Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
-                    Data = (documentNumber != null && documentType != null) ?
-                            _runnerCore.GetRunner(documentNumber ?? "", documentType ?? "") :
-                            _runnerCore.GetRunners()
+                    Data = _runnerCore.GetRunners()
                 };
                 return StatusCode(StatusCodes.Status200OK, response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response()
                 {

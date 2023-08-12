@@ -13,11 +13,13 @@ namespace EventRun_Api.Service.Controllers
         private readonly InscriptionDataCore _inscriptionDataCore;
         private readonly RunnerCore _runnerCore;
         private readonly Email _email;
+        private IConfiguration _configuration { get; }
 
         public InscriptionDataController(IConfiguration config) { 
             _email = new Email(config);
             _inscriptionDataCore = new(config);
             _runnerCore = new(config);
+            _configuration = config;
         }
 
         [HttpPost]
@@ -59,7 +61,11 @@ namespace EventRun_Api.Service.Controllers
                     RunnerResponse runner = _runnerCore.GetRunnerById(inscriptionData.IdRunner);
                     if (inscriptionDataResponse != null && runner != null)
                     {
-                        _email.SendEmail(inscriptionDataResponse, runner);
+                        _email.SendEmail(
+                            _email.GetBodyEmailCreate(inscriptionDataResponse, runner), 
+                            runner.Email,
+                            _configuration["AppSettings:EmailSubjectCreation"]!
+                            );
                     }
                     else {
                         response.Code = (int)EnumCodeResponse.CodeResponse.ErrorEnviarCorreo;
