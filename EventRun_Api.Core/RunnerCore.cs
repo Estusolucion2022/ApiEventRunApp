@@ -70,5 +70,20 @@ namespace EventRun_Api.Core
                 throw;
             }
         }
+
+        public int UpdateRunner(Runner runner)
+        {
+            try
+            {
+                _db.Runners.Update(runner);
+                _db.SaveChanges();
+
+                return runner.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

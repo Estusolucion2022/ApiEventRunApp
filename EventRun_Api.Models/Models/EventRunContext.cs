@@ -45,6 +45,8 @@ public partial class EventRunContext : DbContext
 
     public virtual DbSet<ReportInscriptionData> ReportInscriptionData { get; set; }
 
+    public virtual DbSet<LogUpdateRunner> LogsUpdateRunner { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlServer(DefaultConnection);
@@ -222,7 +224,15 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
                 .IsUnicode(false);
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<LogUpdateRunner>(entity =>
+        {
+            entity.Property(e => e.CreationDate).HasColumnType("date");
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+            OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

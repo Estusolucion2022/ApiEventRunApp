@@ -16,12 +16,14 @@ namespace EventRun_Api.Service.Controllers
     public class RunnersController : ControllerBase
     {
         private readonly RunnerCore _runnerCore;
+        private readonly LogUpdateRunnerCore _logUpdateRunnerCore;
         private readonly Email _email;
         private IConfiguration _configuration { get; }
 
         public RunnersController(IConfiguration configuration)
         {
             _runnerCore = new(configuration);
+            _logUpdateRunnerCore = new(configuration);
             _email = new Email(configuration);
             _configuration = configuration;
         }
@@ -113,6 +115,44 @@ namespace EventRun_Api.Service.Controllers
                 {
                     Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
                     Message = "Error al guardar competidor",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        public IActionResult Update([FromBody] RunnerUpdate updateRunner)
+        {
+            try
+            {
+                int idRunner = _runnerCore.UpdateRunner(updateRunner.Runner);
+                RunnerResponse runnerResponse = _runnerCore.GetRunnerById(idRunner);
+
+                Response response = new()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
+                    Message = "Competidor actualizado con exito",
+                    Data = runnerResponse
+                };
+
+                LogUpdateRunner logUpdateRunner = new LogUpdateRunner
+                {
+                    Iduser = updateRunner.IdUser,
+                    IdRunner = updateRunner.Runner.Id,
+                    Description = updateRunner.Description,
+                    CreationDate = DateTime.Now
+                };
+                _logUpdateRunnerCore.CreateLog(logUpdateRunner);
+
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
+                    Message = "Error al actualizar competidor",
                     Error = ex.Message
                 });
             }
