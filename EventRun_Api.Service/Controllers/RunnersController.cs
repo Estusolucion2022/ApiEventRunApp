@@ -104,7 +104,7 @@ namespace EventRun_Api.Service.Controllers
                 Response response = new()
                 {
                     Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
-                    Message = "Continúa diligenciada forma de pago y Comprobante de Pago.",
+                    Message = "Continúa diligenciando los datos con el Comprobante de Pago.",
                     Data = runnerResponse
                 };
                 return StatusCode(StatusCodes.Status200OK, response);
