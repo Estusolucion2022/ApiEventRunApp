@@ -7,6 +7,7 @@
             ErrorGeneral = 1,
             YaInscrito = 2,
             ErrorEnviarCorreo = 3,
+            CodigoYaRegistrado = 4
         }
     }
 }

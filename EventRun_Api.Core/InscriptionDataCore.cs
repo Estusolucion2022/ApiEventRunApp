@@ -70,5 +70,24 @@ namespace EventRun_Api.Core
                 throw;
             }
         }
+
+        public Boolean VerifyPaymentCode(string paymentCode)
+        {
+            try
+            {
+                InscriptionData? inscriptionData = _db.InscriptionData.Where(x => x.DetailsPayment == paymentCode).FirstOrDefault();
+                if (inscriptionData == null)
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

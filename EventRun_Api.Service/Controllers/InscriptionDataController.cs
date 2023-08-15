@@ -3,6 +3,7 @@ using EventRun_Api.Models;
 using EventRun_Api.Models.Enums;
 using EventRun_Api.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace EventRun_Api.Service.Controllers
 {
@@ -27,60 +28,70 @@ namespace EventRun_Api.Service.Controllers
         public IActionResult Save([FromBody] InscriptionData inscriptionData)
         {
             Response response = new();
-            try
+            if (_inscriptionDataCore.VerifyPaymentCode(inscriptionData.DetailsPayment))
             {
-                if (_inscriptionDataCore.GetInscriptionDataSpecific(inscriptionData.IdRunner,
-                        inscriptionData.IdRace) == null
-                    )
-                {
-                    inscriptionData.RegistrationDate = DateTime.Now;
-                    _inscriptionDataCore.SaveInscriptionData(inscriptionData);
-                    response.Code = (int)EnumCodeResponse.CodeResponse.SinErrores;
-                    response.Message = "¡Bienvenido!\nA su correo registrado le llegara la confirmación de su inscripción\r\n";
-                }
-                else {
-                    response.Code = (int)EnumCodeResponse.CodeResponse.YaInscrito;
-                    response.Message = "Usuario ya inscrito, por favor validar";
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response()
-                {
-                    Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
-                    Message = "Error al guardar inscripcion",
-                    Error = ex.Message
-                });
-            }
-
-            if (response.Code == (int)EnumCodeResponse.CodeResponse.SinErrores) {
                 try
                 {
-                    InscriptionDataResponse? inscriptionDataResponse = _inscriptionDataCore.GetInscriptionDataSpecific
-                        (inscriptionData.IdRunner, inscriptionData.IdRace);
-                    RunnerResponse runner = _runnerCore.GetRunnerById(inscriptionData.IdRunner);
-                    if (inscriptionDataResponse != null && runner != null)
+                    if (_inscriptionDataCore.GetInscriptionDataSpecific(inscriptionData.IdRunner,
+                            inscriptionData.IdRace) == null
+                        )
                     {
-                        _email.SendEmail(
-                            _email.GetBodyEmailCreate(inscriptionDataResponse, runner), 
-                            runner.Email,
-                            _configuration["AppSettings:EmailSubjectCreation"]!
-                            );
+                        inscriptionData.RegistrationDate = DateTime.Now;
+                        _inscriptionDataCore.SaveInscriptionData(inscriptionData);
+                        response.Code = (int)EnumCodeResponse.CodeResponse.SinErrores;
+                        response.Message = "¡Bienvenido!\nA su correo registrado le llegara la confirmación de su inscripción\r\n";
                     }
-                    else {
-                        response.Code = (int)EnumCodeResponse.CodeResponse.ErrorEnviarCorreo;
-                        response.Message = "Error al enviar correo";
+                    else
+                    {
+                        response.Code = (int)EnumCodeResponse.CodeResponse.YaInscrito;
+                        response.Message = "Usuario ya inscrito, por favor validar";
                     }
                 }
                 catch (Exception ex)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response()
                     {
-                        Code = (int)EnumCodeResponse.CodeResponse.ErrorEnviarCorreo,
-                        Message = "Error al enviar correo",
+                        Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
+                        Message = "Error al guardar inscripcion",
                         Error = ex.Message
                     });
                 }
+
+                if (response.Code == (int)EnumCodeResponse.CodeResponse.SinErrores)
+                {
+                    try
+                    {
+                        InscriptionDataResponse? inscriptionDataResponse = _inscriptionDataCore.GetInscriptionDataSpecific
+                            (inscriptionData.IdRunner, inscriptionData.IdRace);
+                        RunnerResponse runner = _runnerCore.GetRunnerById(inscriptionData.IdRunner);
+                        if (inscriptionDataResponse != null && runner != null)
+                        {
+                            _email.SendEmail(
+                                _email.GetBodyEmailCreate(inscriptionDataResponse, runner),
+                                runner.Email,
+                                _configuration["AppSettings:EmailSubjectCreation"]!
+                                );
+                        }
+                        else
+                        {
+                            response.Code = (int)EnumCodeResponse.CodeResponse.ErrorEnviarCorreo;
+                            response.Message = "Error al enviar correo";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response()
+                        {
+                            Code = (int)EnumCodeResponse.CodeResponse.ErrorEnviarCorreo,
+                            Message = "Error al enviar correo",
+                            Error = ex.Message
+                        });
+                    }
+                }
+            }
+            else {
+                response.Code = (int)EnumCodeResponse.CodeResponse.CodigoYaRegistrado;
+                response.Message = "Codigo de pago ya registrado, por favor valide con el administrador";
             }
 
             return StatusCode(StatusCodes.Status200OK, response);

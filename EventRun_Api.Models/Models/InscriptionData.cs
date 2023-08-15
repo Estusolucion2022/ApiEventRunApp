@@ -36,7 +36,7 @@ public partial class InscriptionData
 
     public string? ProofPayment { get; set; }
 
-    public string? DetailsPayment { get; set; }
+    public string DetailsPayment { get; set; } = null!;
 
     public string? TshirtSize { get; set; }
 
