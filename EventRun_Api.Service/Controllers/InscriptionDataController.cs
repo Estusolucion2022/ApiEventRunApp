@@ -53,7 +53,7 @@ namespace EventRun_Api.Service.Controllers
                     {
                         Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
                         Message = "Error al guardar inscripcion",
-                        Error = ex.Message
+                        Error = ex.Message  
                     });
                 }
 
@@ -69,7 +69,7 @@ namespace EventRun_Api.Service.Controllers
                             _email.SendEmail(
                                 _email.GetBodyEmailCreate(inscriptionDataResponse, runner),
                                 runner.Email,
-                                _configuration["AppSettings:EmailSubjectCreation"]!
+                                _configuration["AppSettings:EmailSubjectCreation"]! + " "+  runner.FirstName + " " + runner.LastName
                                 );
                         }
                         else
