@@ -16,7 +16,8 @@ namespace EventRun_Api.Service.Controllers
         private readonly Email _email;
         private IConfiguration _configuration { get; }
 
-        public InscriptionDataController(IConfiguration config) { 
+        public InscriptionDataController(IConfiguration config)
+        {
             _email = new Email(config);
             _inscriptionDataCore = new(config);
             _runnerCore = new(config);
@@ -89,12 +90,39 @@ namespace EventRun_Api.Service.Controllers
                     }
                 }
             }
-            else {
+            else
+            {
                 response.Code = (int)EnumCodeResponse.CodeResponse.CodigoYaRegistrado;
                 response.Message = "Codigo de pago ya registrado, por favor valide con el administrador";
             }
 
             return StatusCode(StatusCodes.Status200OK, response);
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult Update([FromBody] InscriptionData inscriptionData)
+        {
+            Response response = new();
+            try
+            {
+                //inscriptionData.RegistrationDate = DateTime.Now;
+                _inscriptionDataCore.UpdateInscriptionData(inscriptionData);
+                response.Code = (int)EnumCodeResponse.CodeResponse.SinErrores;
+                response.Message = "Inscripción actualizado correctamente";
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
+                    Message = "Error al actualizar inscripcion",
+                    Error = ex.Message
+                });
+
+            }
+            return StatusCode(StatusCodes.Status200OK, response);
+
         }
 
         [HttpGet]

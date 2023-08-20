@@ -71,6 +71,19 @@ namespace EventRun_Api.Core
             }
         }
 
+        public void UpdateInscriptionData(InscriptionData inscriptionData)
+        {
+            try
+            {
+                _db.InscriptionData.Entry(inscriptionData).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public Boolean VerifyPaymentCode(string paymentCode)
         {
             try
