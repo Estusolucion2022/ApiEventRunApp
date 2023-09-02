@@ -37,15 +37,15 @@ namespace EventRun_Api.Service.Controllers
                 RunnerResponse? runnerResponse = _runnerCore.GetRunner(documentNumber, documentType);
                 int accessCode = 0;
 
-                if (runnerResponse != null)
-                {
-                    accessCode = new Random().Next(10000, 99999);
-                    _email.SendEmail(
-                        _email.GetBodyEmailAccess(runnerResponse.FirstName, accessCode.ToString()),
-                        runnerResponse.Email,
-                        _configuration["AppSettings:EmailSubjectAccessCode"]!
-                        );
-                }
+                //if (runnerResponse != null)
+                //{
+                //    accessCode = new Random().Next(10000, 99999);
+                //    _email.SendEmail(
+                //        _email.GetBodyEmailAccess(runnerResponse.FirstName, accessCode.ToString()),
+                //        runnerResponse.Email,
+                //        _configuration["AppSettings:EmailSubjectAccessCode"]!
+                //        );
+                //}
 
                 Response response = new()
                 {
