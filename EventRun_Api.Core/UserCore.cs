@@ -65,5 +65,40 @@ namespace EventRun_Api.Core
                 throw;
             }
         }
+
+        public string? GetEmailByUser(string user)
+        {
+            try
+            {
+                User users = _db.Users.Where(x => x.UserPlataform == user).First();
+                if (users != null) return users.Email;
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool UpdatePasswordUser(RecoverPassword model)
+        {
+            try
+            {
+                User user = _db.Users.Where(x => x.UserPlataform == model.UserPlataform).First();
+                if (user != null)
+                {
+                    user.Password = model.Password;
+                    _db.Entry(user).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return true;    
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
     }
 }

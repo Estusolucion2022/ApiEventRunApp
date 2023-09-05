@@ -14,8 +14,15 @@ namespace EventRun_Api.Service.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserCore _userCore;
+        private readonly Email _email;
+        private IConfiguration _configuration { get; }
 
-        public UsersController(IConfiguration configuration) { _userCore = new(configuration); }
+        public UsersController(IConfiguration configuration) 
+        {
+            _configuration = configuration;
+            _userCore = new(configuration); 
+            _email = new Email(configuration); 
+        }
 
         [HttpPost]
         [Route("Search")]
@@ -71,6 +78,65 @@ namespace EventRun_Api.Service.Controllers
                     Error = ex.Message
                 });
             }
+        }
+
+        [HttpPost]
+        [Route("SendEmail")]
+        public IActionResult SendEmail(string user)
+        {
+            Response response = new();
+            int accessCode = 0;
+            try
+            {
+                string email = _userCore.GetEmailByUser(user)!;
+                if (email != null) 
+                {
+                accessCode = new Random().Next(10000, 99999);
+                _email.SendEmail(
+                    _email.GetBodyEmailAccess(user, accessCode.ToString()),
+                    email,
+                    _configuration["AppSettings:EmailSubjectAccessCode"]!
+                    );
+                }
+                response.Code = (int)EnumCodeResponse.CodeResponse.SinErrores;
+                response.Data = accessCode;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
+                    Message = "Error al mandar correo",
+                    Error = ex.Message
+                });
+            }
+            return StatusCode(StatusCodes.Status200OK, response);
+        }
+
+        [HttpPost]
+        [Route("RecoverPassword")]
+        public IActionResult RecoverPassword(RecoverPassword model)
+        {
+            Response response = new();
+            try
+            {
+                model.Password = Security.GetSHA256(model.Password);
+                bool res = _userCore.UpdatePasswordUser(model);
+                if (res) response.Code = (int)EnumCodeResponse.CodeResponse.SinErrores;
+                else response.Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response()
+                {
+                    Code = (int)EnumCodeResponse.CodeResponse.ErrorGeneral,
+                    Message = "Error al mandar correo",
+                    Error = ex.Message
+                });
+            }
+            return StatusCode(StatusCodes.Status200OK, response);
         }
     }
 }
