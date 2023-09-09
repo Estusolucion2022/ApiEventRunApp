@@ -1,8 +1,10 @@
 ﻿using EventRun_Api.Core;
 using EventRun_Api.Models;
 using EventRun_Api.Models.Enums;
+using EventRun_Api.Models.Models;
 using EventRun_Api.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Text;
 
 namespace EventRun_Api.Service.Controllers
@@ -13,6 +15,7 @@ namespace EventRun_Api.Service.Controllers
     {
         private readonly InscriptionDataCore _inscriptionDataCore;
         private readonly RunnerCore _runnerCore;
+        private readonly LogUpdateRunnerCore _logUpdateRunnerCore;
         private readonly Email _email;
         private IConfiguration _configuration { get; }
 
@@ -21,6 +24,7 @@ namespace EventRun_Api.Service.Controllers
             _email = new Email(config);
             _inscriptionDataCore = new(config);
             _runnerCore = new(config);
+            _logUpdateRunnerCore = new(config);
             _configuration = config;
         }
 
@@ -108,6 +112,16 @@ namespace EventRun_Api.Service.Controllers
             {
                 //inscriptionData.RegistrationDate = DateTime.Now;
                 _inscriptionDataCore.UpdateInscriptionData(inscriptionData);
+
+                LogUpdateRunner logUpdateRunner = new LogUpdateRunner
+                {
+                    Iduser = (int)inscriptionData.IdUser!,
+                    IdRunner = inscriptionData.IdRunner,
+                    Description = inscriptionData.Description,
+                    CreationDate = DateTime.Now
+                };
+                _logUpdateRunnerCore.CreateLog(logUpdateRunner);
+
                 response.Code = (int)EnumCodeResponse.CodeResponse.SinErrores;
                 response.Message = "Inscripción actualizado correctamente";
             }

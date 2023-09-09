@@ -47,4 +47,13 @@ public partial class InscriptionData
     public string? Observations { get; set; }
 
     public bool? AcceptanceTyC { get; set; }
+
+    // logger
+    [NotMapped]
+    public int? IdUser { get; set; }
+    [NotMapped]
+    public string? Description { get; set; }
+
+    // end logger
+
 }
