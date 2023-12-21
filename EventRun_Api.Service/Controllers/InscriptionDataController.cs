@@ -4,8 +4,7 @@ using EventRun_Api.Models.Enums;
 using EventRun_Api.Models.Models;
 using EventRun_Api.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace EventRun_Api.Service.Controllers
 {
@@ -172,7 +171,7 @@ namespace EventRun_Api.Service.Controllers
                 Response response = new()
                 {
                     Code = (int)EnumCodeResponse.CodeResponse.SinErrores,
-                    Data = _inscriptionDataCore.GetReportInscriptionsData()
+                    Data = AesEncryptor.EncriptarAES(JsonConvert.SerializeObject(_inscriptionDataCore.GetReportInscriptionsData()))
                 };
                 return StatusCode(StatusCodes.Status200OK, response);
             }
